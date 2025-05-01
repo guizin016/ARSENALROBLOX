@@ -1,0 +1,101 @@
+lua
+local Lib = loadstring(game:HttpGet("https://raw.githubusercontent.com/7yhx/kwargs_Ui_Library/main/source.lua"))()
+
+local UI = Lib:Create{
+    Theme = "Dark", -- or any other theme
+    Size = UDim2.new(0, 555, 0, 400) -- default
+}
+
+local Main = UI:Tab{
+    Name = "inicio"
+}
+
+local Divider = Main:Divider{
+    Name = "inicio shit"
+}
+
+local QuitDivider = Main:Divider{
+    Name = "sair"
+}
+
+
+local QuitDivider = Main:Divider{
+    Name = "Sair"
+}
+
+local KillAllESP = QuitDivider:Button{
+    Name = "Kill All (ESP)",
+    Callback = function()
+        for _, Player in pairs(game.Players:GetPlayers()) do
+            if Player.TeamColor == Team then
+                local box = Instance.new("BoxHandleAdornment")
+                box.Size = Player.Character.HumanoidRootPart.Size + Vector3.new(0.5, 0.5, 0.5)
+                box.Color3 = Color3.fromRGB(255, 0, 0)
+                box.Transparency = 0.5
+                box.AlwaysOnTop = true
+                box.ZIndex = 10
+                box.Adornee = Player.Character.HumanoidRootPart
+                box.Parent = Player.Character.HumanoidRootPart
+            end
+        end
+    end
+}
+
+local KillAllFOV = QuitDivider:Button{
+    Name = "Kill All (FOV)",
+    Callback = function()
+        for _, Player in pairs(game.Players:GetPlayers()) do
+            if Player.TeamColor == Team then
+                local selectionBox = Instance.new("SelectionBox")
+                selectionBox.LineThickness = 0.05
+                selectionBox.Color3 = Color3.fromRGB(255, 0, 0)
+                selectionBox.Transparency = 0.5
+                selectionBox.Adornee = Player.Character.HumanoidRootPart
+                selectionBox.Parent = Player.Character.HumanoidRootPart
+            end
+        end
+    end
+}
+
+local function DisableESP()
+    --[Adicione aqui a lógica para desativar o ESP]--
+end
+
+local function DisableFOV()
+    --[Adicione aqui a lógica para desativar o FOV]--
+end
+for _, Player in pairs(Players:GetPlayers()) do
+    if Player.Character and Player.Character:FindFirstChild("HumanoidRootPart") then
+      Player.Character.HumanoidRootPart:FindFirstChildOfClass("SelectionBox"):Destroy()
+    end
+  end
+  end
+  
+  ESP(LocalPlayer)
+  FOV(LocalPlayer)
+  
+  Players.PlayerAdded:Connect(function(Player)
+    ESP(Player)
+    FOV(Player)
+  end)
+  
+  Players.PlayerRemoving:Connect(function(Player)
+    if Player.Character and Player.Character:FindFirstChild("HumanoidRootPart") then
+      Player.Character.HumanoidRootPart:FindFirstChildOfClass("BoxHandleAdornment"):Destroy()
+      Player.Character.HumanoidRootPart:FindFirstChildOfClass("SelectionBox"):Destroy()
+    end
+  end)
+  
+  game:GetService("UserInputService").InputBegan:Connect(function(Input, GameProcessed)
+    if Input.KeyCode == Enum.KeyCode.P then
+      if ESPEnabled then
+        DisableESP()
+        DisableFOV()
+        ESPEnabled = false
+      else
+        ESPEnabled = true
+      end
+    end
+  end)
+  
+  
